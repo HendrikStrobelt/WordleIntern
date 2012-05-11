@@ -39,23 +39,25 @@ public class Main {
     final JPanel guiPanel = new JPanel();
     guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.Y_AXIS));
     guiPanel.add(new JButton(new AbstractAction("load csv.. ") {
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			final JFileChooser fc = new JFileChooser();
-			
-				int returnVal = fc.showOpenDialog(guiPanel);
 
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					File file = fc.getSelectedFile();
-					List<TextItem> loadCSV = InputDataReader.loadCSV(file, ",");
-					System.out.println(loadCSV);
-				} else {
-					System.out.println("nothing selected");
-				}
-			 
-		}
-	}));
+      private static final long serialVersionUID = -1332014568175053524L;
+
+      @Override
+      public void actionPerformed(final ActionEvent e) {
+        final JFileChooser fc = new JFileChooser();
+
+        final int returnVal = fc.showOpenDialog(guiPanel);
+
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+          final File file = fc.getSelectedFile();
+          final List<TextItem> loadCSV = InputDataReader.loadCSV(file, ",");
+          System.out.println(loadCSV);
+        } else {
+          System.out.println("nothing selected");
+        }
+
+      }
+    }));
     guiPanel.add(new JButton("load color.."));
     guiPanel.add(new JButton(new AbstractAction("Save SVG...") {
 
