@@ -12,56 +12,57 @@ import au.com.bytecode.opencsv.CSVReader;
 
 public class InputDataReader {
 
-	public static List<TextItem> loadCSV(File file, String splitChar) {
-		List<TextItem> res = new ArrayList<TextItem>();
+  public static List<TextItem> loadCSV(final File file) {
+    final List<TextItem> res = new ArrayList<TextItem>();
 
-		if (file.exists()) {
+    if(file.exists()) {
 
-			// Read File Line By Line
-			float max = Float.MIN_VALUE;
-			float min = Float.MAX_VALUE;
+      // Read File Line By Line
+      float max = Float.MIN_VALUE;
+      float min = Float.MAX_VALUE;
 
-			try {
-				CSVReader reader = new CSVReader(new FileReader(file));
-				String[] nextLine;
-				while ((nextLine = reader.readNext()) != null) {
-					// nextLine[] is an array of values from the line
+      try {
+        final CSVReader reader = new CSVReader(new FileReader(file));
+        String[] nextLine;
+        while((nextLine = reader.readNext()) != null) {
+          // nextLine[] is an array of values from the line
 
-					System.out.println(nextLine[0] + nextLine[1] + "etc...");
+          System.out.println(nextLine[0] + nextLine[1] + "etc...");
 
-					if (nextLine.length > 1) {
-						String term = nextLine[0];
-						Float weight = new Float(nextLine[1]);
-						if (weight > max)
-							max = weight;
-						if (weight < min)
-							min = weight;
+          if(nextLine.length > 1) {
+            final String term = nextLine[0];
+            final Float weight = new Float(nextLine[1]);
+            if(weight > max) {
+              max = weight;
+            }
+            if(weight < min) {
+              min = weight;
+            }
 
-						res.add(new TextItem(term, weight));
-					}
+            res.add(new TextItem(term, weight));
+          }
 
-				}
-			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        }
+      } catch(final NumberFormatException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } catch(final FileNotFoundException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } catch(final IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
 
-			for (TextItem textItem : res) {
-				textItem.setSize((textItem.getSize() - min) / (max-min));
-			}
+      for(final TextItem textItem : res) {
+        textItem.setSize((textItem.getSize() - min) / (max - min));
+      }
 
-			Collections.sort(res);
-			
-			
-		}
+      Collections.sort(res);
 
-		return res;
-	}
+    }
+
+    return res;
+  }
 
 }

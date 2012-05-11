@@ -1,6 +1,7 @@
 package de.graphics.uni_konstanz.wordle;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
@@ -60,9 +61,9 @@ public class Main {
 
         if(returnVal == JFileChooser.APPROVE_OPTION) {
           final File file = fc.getSelectedFile();
-          final List<TextItem> loadCSV = InputDataReader.loadCSV(file, ",");
+          final List<TextItem> loadCSV = InputDataReader.loadCSV(file);
           wordlePainterSimple.setItems(loadCSV);
-          canvas.repaint();
+          canvas.reset(wordlePainterSimple.getBBox());
 
           final File par = file.getParentFile();
           try {
@@ -81,43 +82,39 @@ public class Main {
       }
     }));
     guiPanel.add(new JButton("load color.."));
-    
-    
+
     /*
      * Find Times font and create combo box
-     * 
-     * */
+     */
     final String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment()
-    .getAvailableFontFamilyNames();
+        .getAvailableFontFamilyNames();
     int timesIndex = 0;
-    for (String string : fonts) {
-		if (string.startsWith("Times")) break;
-		timesIndex++;
-	}
-    if (timesIndex>fonts.length) timesIndex=0;
+    for(final String string : fonts) {
+      if(string.startsWith("Times")) {
+        break;
+      }
+      timesIndex++;
+    }
+    if(timesIndex > fonts.length) {
+      timesIndex = 0;
+    }
     final JComboBox fontList = new JComboBox(fonts);
     fontList.setSelectedIndex(timesIndex);
-    fontList.setMaximumSize(new Dimension(200,30));
+    fontList.setMaximumSize(new Dimension(200, 30));
     fontList.addActionListener(new ActionListener() {
-		
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			wordlePainterSimple.setFontName((String) fontList.getSelectedItem());
-			canvas.repaint();
-		}
-	});
+
+      @Override
+      public void actionPerformed(final ActionEvent arg0) {
+        wordlePainterSimple.setFontName((String) fontList.getSelectedItem());
+        canvas.repaint();
+      }
+    });
     guiPanel.add(fontList);
-    
-    
-    
+
     /*
      * -- end combo box
-     * */
-    
-    
-    
-    
-    
+     */
+
     guiPanel.add(new JButton(new AbstractAction("reset view") {
 
       private static final long serialVersionUID = 2154458079066313145L;
@@ -138,7 +135,10 @@ public class Main {
         final File file = svg.saveSVGDialog(canvas);
         if(file == null) return;
         final Graphics2D g = svg.getGraphics("WordleIntern");
+        final Color back = canvas.getBackground();
+        canvas.setBackground(null);
         canvas.paint(g);
+        canvas.setBackground(back);
         g.dispose();
         try {
           svg.write(file, g);
@@ -150,15 +150,12 @@ public class Main {
     }));
     guiPanel.setMinimumSize(new Dimension(200, 0));
 
-    
-    
-    
-    
     fenster.setLayout(new BorderLayout());
     fenster.add(guiPanel, BorderLayout.WEST);
     fenster.add(canvas, BorderLayout.CENTER);
     fenster.pack();
 
+    canvas.setBackground(Color.WHITE);
     canvas.reset();
 
     fenster.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -170,9 +167,6 @@ public class Main {
     final Main main = new Main();
     main.fenster.setVisible(true);
 
-    
-
-    
   }
 
 }

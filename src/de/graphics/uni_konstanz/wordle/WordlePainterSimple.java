@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +59,18 @@ public class WordlePainterSimple implements WordlePainter {
       g.fill(shape);
     }
 
+  }
+
+  public Rectangle2D getBBox() {
+    Rectangle2D res = null;
+    for(final Shape shape : shapes) {
+      if(res == null) {
+        res = shape.getBounds2D();
+      } else {
+        res.add(shape.getBounds2D());
+      }
+    }
+    return res;
   }
 
 }

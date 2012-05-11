@@ -88,13 +88,24 @@ public class Canvas extends JComponent {
     addMouseWheelListener(mouse);
   }
 
+  private Color back;
+
+  @Override
+  public void setBackground(final Color bg) {
+    back = bg;
+    super.setBackground(bg);
+  }
+
   @Override
   public void paintComponent(final Graphics g) {
     final Graphics2D g2 = (Graphics2D) g.create();
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
         RenderingHints.VALUE_ANTIALIAS_ON);
-    g2.setColor(Color.WHITE);
-    g2.fill(getVisibleRect());
+    final Color c = back;
+    if(c != null) {
+      g2.setColor(c);
+      g2.fill(getVisibleRect());
+    }
     g2.translate(offX, offY);
     g2.scale(zoom, zoom);
     painter.paint(g2);
@@ -171,9 +182,28 @@ public class Canvas extends JComponent {
   }
 
   public void reset() {
-    zoom = 1;
+    reset(null);
+  }
+
+  public static final double MARGIN = 10.0;
+
+  public void reset(final Rectangle2D bbox) {
     final Rectangle2D rect = getVisibleRect();
-    setOffset(rect.getCenterX(), rect.getCenterY());
+    if(bbox == null) {
+      zoom = 1;
+      setOffset(rect.getCenterX(), rect.getCenterY());
+    } else {
+      final int nw = (int) (rect.getWidth() - 2 * MARGIN);
+      final int nh = (int) (rect.getHeight() - 2 * MARGIN);
+      zoom = 1.0;
+      // does repaint
+      setOffset(MARGIN + (nw - bbox.getWidth()) / 2 - bbox.getMinX(), MARGIN
+          + (nh - bbox.getHeight()) / 2 - bbox.getMinY());
+      final double rw = nw / bbox.getWidth();
+      final double rh = nh / bbox.getHeight();
+      final double factor = rw < rh ? rw : rh;
+      zoom(factor);
+    }
   }
 
 }
