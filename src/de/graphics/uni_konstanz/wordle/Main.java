@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +15,7 @@ import java.util.Scanner;
 import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -79,6 +81,43 @@ public class Main {
       }
     }));
     guiPanel.add(new JButton("load color.."));
+    
+    
+    /*
+     * Find Times font and create combo box
+     * 
+     * */
+    final String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment()
+    .getAvailableFontFamilyNames();
+    int timesIndex = 0;
+    for (String string : fonts) {
+		if (string.startsWith("Times")) break;
+		timesIndex++;
+	}
+    if (timesIndex>fonts.length) timesIndex=0;
+    final JComboBox fontList = new JComboBox(fonts);
+    fontList.setSelectedIndex(timesIndex);
+    fontList.setMaximumSize(new Dimension(200,30));
+    fontList.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			wordlePainterSimple.setFontName((String) fontList.getSelectedItem());
+			canvas.repaint();
+		}
+	});
+    guiPanel.add(fontList);
+    
+    
+    
+    /*
+     * -- end combo box
+     * */
+    
+    
+    
+    
+    
     guiPanel.add(new JButton(new AbstractAction("reset view") {
 
       private static final long serialVersionUID = 2154458079066313145L;
@@ -113,6 +152,10 @@ public class Main {
     }));
     guiPanel.setMinimumSize(new Dimension(200, 0));
 
+    
+    
+    
+    
     fenster.setLayout(new BorderLayout());
     fenster.add(guiPanel, BorderLayout.WEST);
     fenster.add(canvas, BorderLayout.CENTER);
@@ -129,12 +172,9 @@ public class Main {
     final Main main = new Main();
     main.fenster.setVisible(true);
 
-    final String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment()
-        .getAvailableFontFamilyNames();
+    
 
-    for(int i = 0; i < fonts.length; i++) {
-      System.out.println(fonts[i]);
-    }
+    
   }
 
 }
