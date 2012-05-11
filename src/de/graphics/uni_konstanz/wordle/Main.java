@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
@@ -24,10 +23,6 @@ public class Main {
 
   public Main() {
     fenster = new JFrame("Fenster");
-    fenster.setSize(300, 300);
-    fenster.setLocation(300, 300);
-    fenster.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    fenster.setVisible(true);
 
     final Canvas canvas = new Canvas(new WordlePainter() {
 
@@ -39,7 +34,6 @@ public class Main {
 
     });
 
-    final BorderLayout borderLayout = new BorderLayout();
     final JPanel guiPanel = new JPanel();
     guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.Y_AXIS));
     guiPanel.add(new JButton("yes"));
@@ -67,13 +61,10 @@ public class Main {
 
     }));
     guiPanel.setMinimumSize(new Dimension(200, 0));
-    final Panel panel = new Panel(borderLayout);
-    panel.add(guiPanel, BorderLayout.WEST);
 
-    panel.add(canvas);
-
-    fenster.add(panel);
-
+    fenster.setLayout(new BorderLayout());
+    fenster.add(guiPanel, BorderLayout.WEST);
+    fenster.add(canvas, BorderLayout.CENTER);
     fenster.pack();
 
     fenster.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
