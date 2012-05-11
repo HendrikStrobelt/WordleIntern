@@ -28,9 +28,16 @@ public class WordlePainterSimple implements WordlePainter {
 		this.items = items;
 		for (TextItem textItem : items) {
 			Font font = fm.get(textItem.size);
+			Shape outline = TextOutliner.getOutline(font, textItem.getTerm());
+			
+			shapes.add(outline);
+			
+			
 			
 		}
 		
+//		List<Shape> free = WordleLayouter.generateLayoutCircular(shapes, false, WordleLayouter.RotationMode.NO_ROTATION);
+//		shapes = free;
 		
 	}
 
@@ -40,15 +47,10 @@ public class WordlePainterSimple implements WordlePainter {
 
 	@Override
 	public void paint(Graphics2D g) {
-		int x=0;
-		for (TextItem textItem : items) {
-			Font font = fm.get(textItem.size);
-			g.setColor(Color.black);
-			g.setFont(font);
-			g.drawString(textItem.getTerm(), x, x);
-			x++;
-			
-		}		
+		g.setColor(Color.black);
+		for (Shape shape : shapes) {
+			g.fill(shape);
+		}
 
 	}
 

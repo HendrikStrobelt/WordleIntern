@@ -40,7 +40,7 @@ public class Main {
       @Override
       public void actionPerformed(final ActionEvent e) {
         final JFileChooser fc = new JFileChooser();
-
+        fc.setCurrentDirectory(new File("."));
         final int returnVal = fc.showOpenDialog(guiPanel);
 
         if(returnVal == JFileChooser.APPROVE_OPTION) {
