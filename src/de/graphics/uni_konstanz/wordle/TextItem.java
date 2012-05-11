@@ -1,65 +1,51 @@
 package de.graphics.uni_konstanz.wordle;
 
-public class TextItem implements Comparable<TextItem>{
+public class TextItem implements Comparable<TextItem> {
 
-	String term;
-	float size;
-	float fontSize;
-	
-	
-	public TextItem(String term, float size) {
-		super();
-		this.term = term;
-		this.size = size;
-	}
+  String term;
+  float size;
+  float fontSize;
 
+  public TextItem(final String term, final float size) {
+    super();
+    this.term = term;
+    this.size = size;
+  }
 
-	public String getTerm() {
-		return term;
-	}
+  public String getTerm() {
+    return term;
+  }
 
+  public void setTerm(final String term) {
+    this.term = term;
+  }
 
-	public void setTerm(String term) {
-		this.term = term;
-	}
+  public float getSize() {
+    return size;
+  }
 
+  public void setSize(final float size) {
+    this.size = size;
+  }
 
-	public float getSize() {
-		return size;
-	}
+  public float getFontSize() {
+    return fontSize;
+  }
 
+  public void setFontSize(final float fontSize) {
+    this.fontSize = fontSize;
+  }
 
-	public void setSize(float size) {
-		this.size = size;
-	}
+  @Override
+  public String toString() {
+    return "TextItem [term=" + term + ", size=" + size + ", fontSize="
+        + fontSize + "]";
+  }
 
+  @Override
+  public int compareTo(final TextItem o) {
 
-	public float getFontSize() {
-		return fontSize;
-	}
+    return (size - o.size > 0) ? -1 : 1;
+  }
 
-
-	public void setFontSize(float fontSize) {
-		this.fontSize = fontSize;
-	}
-
-
-	@Override
-	public String toString() {
-		return "TextItem [term=" + term + ", size=" + size + ", fontSize="
-				+ fontSize + "]";
-	}
-
-
-	@Override
-	public int compareTo(TextItem o) {
-		
-		return (this.size-o.size>0)?1:-1;
-	}
-	
-	
-	
-	
-	
-	
 }
