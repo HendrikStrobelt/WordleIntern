@@ -26,15 +26,9 @@ public class Main {
   public Main() {
     fenster = new JFrame("Fenster");
 
-    final Canvas canvas = new Canvas(new WordlePainter() {
-
-      @Override
-      public void paint(final Graphics2D g) {
-        g.setColor(Color.RED);
-        g.fill(new Rectangle2D.Double(0, 0, 100, 100));
-      }
-
-    });
+    final WordlePainterSimple wordlePainterSimple = new WordlePainterSimple();
+    
+    final Canvas canvas = new Canvas(wordlePainterSimple);
 
     final JPanel guiPanel = new JPanel();
     guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.Y_AXIS));
@@ -42,6 +36,8 @@ public class Main {
 
       private static final long serialVersionUID = -1332014568175053524L;
 
+      
+      
       @Override
       public void actionPerformed(final ActionEvent e) {
         final JFileChooser fc = new JFileChooser();
@@ -51,6 +47,9 @@ public class Main {
         if(returnVal == JFileChooser.APPROVE_OPTION) {
           final File file = fc.getSelectedFile();
           final List<TextItem> loadCSV = InputDataReader.loadCSV(file, ",");
+          wordlePainterSimple.setItems(loadCSV);
+          canvas.repaint();
+          
           System.out.println(loadCSV);
         } else {
           System.out.println("nothing selected");
