@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
@@ -26,10 +25,6 @@ public class Main {
 
   public Main() {
     fenster = new JFrame("Fenster");
-    fenster.setSize(300, 300);
-    fenster.setLocation(300, 300);
-    fenster.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    fenster.setVisible(true);
 
     final Canvas canvas = new Canvas(new WordlePainter() {
 
@@ -41,27 +36,28 @@ public class Main {
 
     });
 
-    final BorderLayout borderLayout = new BorderLayout();
     final JPanel guiPanel = new JPanel();
     guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.Y_AXIS));
     guiPanel.add(new JButton(new AbstractAction("load csv.. ") {
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			final JFileChooser fc = new JFileChooser();
-			
-				int returnVal = fc.showOpenDialog(guiPanel);
 
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					File file = fc.getSelectedFile();
-					List<TextItem> loadCSV = InputDataReader.loadCSV(file, ",");
-					System.out.println(loadCSV);
-				} else {
-					System.out.println("nothing selected");
-				}
-			 
-		}
-	}));
+      private static final long serialVersionUID = -1332014568175053524L;
+
+      @Override
+      public void actionPerformed(final ActionEvent e) {
+        final JFileChooser fc = new JFileChooser();
+
+        final int returnVal = fc.showOpenDialog(guiPanel);
+
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+          final File file = fc.getSelectedFile();
+          final List<TextItem> loadCSV = InputDataReader.loadCSV(file, ",");
+          System.out.println(loadCSV);
+        } else {
+          System.out.println("nothing selected");
+        }
+
+      }
+    }));
     guiPanel.add(new JButton("load color.."));
     guiPanel.add(new JButton(new AbstractAction("Save SVG...") {
 
@@ -86,13 +82,10 @@ public class Main {
 
     }));
     guiPanel.setMinimumSize(new Dimension(200, 0));
-    final Panel panel = new Panel(borderLayout);
-    panel.add(guiPanel, BorderLayout.WEST);
 
-    panel.add(canvas);
-
-    fenster.add(panel);
-
+    fenster.setLayout(new BorderLayout());
+    fenster.add(guiPanel, BorderLayout.WEST);
+    fenster.add(canvas, BorderLayout.CENTER);
     fenster.pack();
 
     fenster.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
