@@ -9,10 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
@@ -36,8 +38,25 @@ public class Main {
 
     final JPanel guiPanel = new JPanel();
     guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.Y_AXIS));
-    guiPanel.add(new JButton("yes"));
-    guiPanel.add(new JButton("no"));
+    guiPanel.add(new JButton(new AbstractAction("load csv.. ") {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			final JFileChooser fc = new JFileChooser();
+			
+				int returnVal = fc.showOpenDialog(guiPanel);
+
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = fc.getSelectedFile();
+					List<TextItem> loadCSV = InputDataReader.loadCSV(file, ",");
+					System.out.println(loadCSV);
+				} else {
+					System.out.println("nothing selected");
+				}
+			 
+		}
+	}));
+    guiPanel.add(new JButton("load color.."));
     guiPanel.add(new JButton(new AbstractAction("Save SVG...") {
 
       private static final long serialVersionUID = -9119742082960796042L;
