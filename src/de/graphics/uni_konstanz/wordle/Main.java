@@ -54,7 +54,7 @@ public class Main {
         }
         final JFileChooser fc = new JFileChooser(start);
 
-        final int returnVal = fc.showOpenDialog(guiPanel);
+        final int returnVal = fc.showOpenDialog(canvas);
 
         if(returnVal == JFileChooser.APPROVE_OPTION) {
           final File file = fc.getSelectedFile();
