@@ -1,6 +1,8 @@
 package de.graphics.uni_konstanz.wordle;
 
+import java.awt.BasicStroke;
 import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
@@ -274,6 +276,15 @@ public class WordleLayouter {
 		return layouted;
 	}
 
+	private static Area createBleededArea(final Area area) {
+		final Area copy = new Area(area);
+		final Stroke stroke = new BasicStroke(1.5f);
+		final Shape bleed = stroke.createStrokedShape(area);
+		final Area a = new Area(bleed);
+		copy.add(a);
+		return copy;
+	}
+
 	private static Area getTransformedArea(final Shape original,
 			final AffineTransform transform) {
 		final Area copy = new Area(original);
@@ -294,7 +305,8 @@ public class WordleLayouter {
 	private static boolean hasOverlap(final Shape s1, final Shape s2) {
 		final Area a1 = new Area(s1);
 		final Area a2 = new Area(s2);
-		a1.intersect(a2);
+		final Area a2bleeded = createBleededArea(a2);
+		a1.intersect(a2bleeded);
 		return !a1.isEmpty();
 	}
 
