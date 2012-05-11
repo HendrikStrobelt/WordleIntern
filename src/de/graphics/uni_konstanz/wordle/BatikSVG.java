@@ -48,9 +48,8 @@ public class BatikSVG {
 
   public void write(final Writer out, final Graphics2D g) throws IOException {
     final SVGGraphics2D gfx = openGfx.remove(g);
-    if(gfx == null) {
-      throw new IllegalArgumentException("invalid graphics object");
-    }
+    if(gfx == null) throw new IllegalArgumentException(
+        "invalid graphics object");
     gfx.stream(out, true);
   }
 
@@ -79,9 +78,7 @@ public class BatikSVG {
     final boolean approved =
         choose.showSaveDialog(parent) == JFileChooser.APPROVE_OPTION;
     final File res = approved ? choose.getSelectedFile() : null;
-    if(res == null) {
-      return null;
-    }
+    if(res == null) return null;
     final File par = res.getParentFile();
     final String name = res.getName();
     try {
@@ -91,9 +88,7 @@ public class BatikSVG {
     } catch(final IOException e) {
       // no worries
     }
-    if(!name.contains(".")) {
-      return new File(par, name + ".svg");
-    }
+    if(!name.contains(".")) return new File(par, name + ".svg");
     return res;
   }
 

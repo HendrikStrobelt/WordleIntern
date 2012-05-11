@@ -106,7 +106,7 @@ public class Main {
       @Override
       public void actionPerformed(final ActionEvent arg0) {
         wordlePainterSimple.setFontName((String) fontList.getSelectedItem());
-        canvas.repaint();
+        canvas.reset(wordlePainterSimple.getBBox());
       }
     });
     guiPanel.add(fontList);
@@ -121,7 +121,7 @@ public class Main {
 
       @Override
       public void actionPerformed(final ActionEvent e) {
-        canvas.reset();
+        canvas.reset(wordlePainterSimple.getBBox());
       }
 
     }));

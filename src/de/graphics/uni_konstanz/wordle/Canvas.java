@@ -99,6 +99,7 @@ public class Canvas extends JComponent {
   @Override
   public void paintComponent(final Graphics g) {
     final Graphics2D g2 = (Graphics2D) g.create();
+    g2.clip(getVisibleRect());
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
         RenderingHints.VALUE_ANTIALIAS_ON);
     final Color c = back;
