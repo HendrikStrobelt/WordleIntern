@@ -7,7 +7,9 @@ import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
@@ -19,14 +21,15 @@ import javax.swing.WindowConstants;
 
 public class Main {
 
+  private static final File LAST_DIR = new File(".lastCsv");
+
   private final JFrame fenster;
 
   public Main() {
     fenster = new JFrame("Fenster");
 
-
     final WordlePainterSimple wordlePainterSimple = new WordlePainterSimple();
-    
+
     final Canvas canvas = new Canvas(wordlePainterSimple);
 
     final JPanel guiPanel = new JPanel();
@@ -35,11 +38,21 @@ public class Main {
 
       private static final long serialVersionUID = -1332014568175053524L;
 
-      
-      
       @Override
-      public void actionPerformed(final ActionEvent e) {
-        final JFileChooser fc = new JFileChooser();
+      public void actionPerformed(final ActionEvent ae) {
+        File start = new File(".");
+        if(LAST_DIR.exists()) {
+          try {
+            final Scanner s = new Scanner(LAST_DIR, "UTF-8");
+            if(s.hasNextLine()) {
+              start = new File(s.nextLine().trim());
+            }
+            s.close();
+          } catch(final IOException e) {
+            // no worries
+          }
+        }
+        final JFileChooser fc = new JFileChooser(start);
 
         final int returnVal = fc.showOpenDialog(guiPanel);
 
@@ -48,7 +61,16 @@ public class Main {
           final List<TextItem> loadCSV = InputDataReader.loadCSV(file, ",");
           wordlePainterSimple.setItems(loadCSV);
           canvas.repaint();
-          
+
+          final File par = file.getParentFile();
+          try {
+            final PrintWriter pw = new PrintWriter(LAST_DIR, "UTF-8");
+            pw.println(par.toString());
+            pw.close();
+          } catch(final IOException e) {
+            // no worries
+          }
+
           System.out.println(loadCSV);
         } else {
           System.out.println("nothing selected");
