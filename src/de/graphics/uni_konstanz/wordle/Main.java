@@ -21,7 +21,7 @@ import javax.swing.WindowConstants;
 
 public class Main {
 
-  private static final File LAST_DIR = new File(".lastCsv");
+  public static final File LAST_DIR = new File(".lastCsv");
 
   private final JFrame fenster;
 
@@ -97,9 +97,7 @@ public class Main {
       public void actionPerformed(final ActionEvent ae) {
         final BatikSVG svg = new BatikSVG();
         final File file = svg.saveSVGDialog(canvas);
-        if(file == null) {
-          return;
-        }
+        if(file == null) return;
         final Graphics2D g = svg.getGraphics("WordleIntern");
         canvas.paint(g);
         g.dispose();

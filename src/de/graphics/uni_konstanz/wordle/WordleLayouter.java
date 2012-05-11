@@ -158,8 +158,8 @@ public class WordleLayouter {
               .getCenterY());
           final Point2D c2 = new Point2D.Double(r2.getCenterX(), r2
               .getCenterY());
-          return Double.compare(calcEuclideanDistance(c1, center),
-              calcEuclideanDistance(c2, center));
+          return Double.compare(calcEuclideanDistanceSq(c1, center),
+              calcEuclideanDistanceSq(c2, center));
         }
       });
     }
@@ -286,9 +286,7 @@ public class WordleLayouter {
   private static boolean hasOverlap(final List<Shape> alreadyLayouted,
       final Shape current) {
     for(final Shape s : alreadyLayouted) {
-      if(hasOverlap(s, current)) {
-        return true;
-      }
+      if(hasOverlap(s, current)) return true;
     }
     return false;
   }
@@ -301,9 +299,9 @@ public class WordleLayouter {
     return !a1.isEmpty();
   }
 
-  private static double calcEuclideanDistance(final Point2D p1,
+  public static final double calcEuclideanDistanceSq(final Point2D p1,
       final Point2D p2) {
-    return Math.sqrt((p1.getX() - p2.getX()) * (p1.getX() - p2.getX())
-        + (p1.getY() - p2.getY()) * (p1.getY() - p2.getY()));
+    return (p1.getX() - p2.getX()) * (p1.getX() - p2.getX())
+        + (p1.getY() - p2.getY()) * (p1.getY() - p2.getY());
   }
 }
