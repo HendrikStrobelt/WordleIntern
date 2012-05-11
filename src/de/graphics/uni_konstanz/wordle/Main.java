@@ -1,12 +1,10 @@
 package de.graphics.uni_konstanz.wordle;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
-import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
