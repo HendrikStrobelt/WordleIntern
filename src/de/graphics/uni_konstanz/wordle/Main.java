@@ -31,7 +31,7 @@ public class Main {
       @Override
       public void paint(final Graphics2D g) {
         g.setColor(Color.RED);
-        g.fill(new Rectangle2D.Double(0, 0, 100, 100));
+        g.fill(new Rectangle2D.Double(-50, -50, 100, 100));
       }
 
     });
@@ -59,6 +59,16 @@ public class Main {
       }
     }));
     guiPanel.add(new JButton("load color.."));
+    guiPanel.add(new JButton(new AbstractAction("reset view") {
+
+      private static final long serialVersionUID = 2154458079066313145L;
+
+      @Override
+      public void actionPerformed(final ActionEvent e) {
+        canvas.reset();
+      }
+
+    }));
     guiPanel.add(new JButton(new AbstractAction("Save SVG...") {
 
       private static final long serialVersionUID = -9119742082960796042L;
@@ -87,6 +97,8 @@ public class Main {
     fenster.add(guiPanel, BorderLayout.WEST);
     fenster.add(canvas, BorderLayout.CENTER);
     fenster.pack();
+
+    canvas.reset();
 
     fenster.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     fenster.setLocationRelativeTo(null);
