@@ -9,38 +9,55 @@ import java.util.List;
 
 public class WordlePainterSimple implements WordlePainter {
 
-	List<TextItem> items = new ArrayList<TextItem>();
-	List<Shape> shapes = new ArrayList<Shape>();
-	FontManager fm = new FontManager(6, 18, "Times");
+  List<TextItem> items = new ArrayList<TextItem>();
+  List<Shape> shapes = new ArrayList<Shape>();
+  FontManager fm = new FontManager(6, 18, "Times");
+  String fontName = "Times";
 
-	public List<TextItem> getItems() {
-		return items;
-	}
+  public String getFontName() {
+    return fontName;
+  }
 
-	public void setItems(final List<TextItem> items) {
-		this.items = items;
-		for (final TextItem textItem : items) {
-			final Font font = fm.get(textItem.size);
-			final Shape outline = TextOutliner.getOutline(font,
-					textItem.getTerm());
+  public void setFontName(final String fontName) {
+    this.fontName = fontName;
+    fm = new FontManager(6, 18, fontName);
+    updateAllStuff();
 
-			shapes.add(outline);
+  }
 
-		}
+  public List<TextItem> getItems() {
+    return items;
+  }
 
-		final List<Shape> free = WordleLayouter.generateLayoutCircular(shapes,
-				false, WordleLayouter.RotationMode.NO_ROTATION);
-		shapes = free;
+  public void setItems(final List<TextItem> items) {
+    this.items = items;
 
-	}
+    updateAllStuff();
 
-	@Override
-	public void paint(final Graphics2D g) {
-		g.setColor(Color.black);
-		for (final Shape shape : shapes) {
-			g.fill(shape);
-		}
+  }
 
-	}
+  private void updateAllStuff() {
+    shapes.clear();
+    for(final TextItem textItem : items) {
+      final Font font = fm.get(textItem.size);
+      final Shape outline = TextOutliner.getOutline(font, textItem.getTerm());
+      shapes.add(outline);
+
+    }
+
+    final List<Shape> free = WordleLayouter.generateLayoutCircular(shapes,
+        false, WordleLayouter.RotationMode.NO_ROTATION);
+    shapes = free;
+
+  }
+
+  @Override
+  public void paint(final Graphics2D g) {
+    g.setColor(Color.black);
+    for(final Shape shape : shapes) {
+      g.fill(shape);
+    }
+
+  }
 
 }
