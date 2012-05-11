@@ -11,11 +11,12 @@ public class FontManager {
 	public FontManager(final int _minFS, final int _maxFS, final String fontName) {
 		minFS = _minFS;
 		maxFS = _maxFS;
-		font = Font.getFont(fontName);
+		font = Font.decode(fontName);
 	}
 
 	public Font get(final double value) {
 		final float f = Math.round((1 - value) * minFS + value * maxFS);
+		System.out.println("size: "+f + font);
 		return font.deriveFont(f);
 	}
 }

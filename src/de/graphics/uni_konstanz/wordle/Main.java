@@ -1,12 +1,10 @@
 package de.graphics.uni_konstanz.wordle;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
-import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -26,15 +24,10 @@ public class Main {
   public Main() {
     fenster = new JFrame("Fenster");
 
-    final Canvas canvas = new Canvas(new WordlePainter() {
 
-      @Override
-      public void paint(final Graphics2D g) {
-        g.setColor(Color.RED);
-        g.fill(new Rectangle2D.Double(0, 0, 100, 100));
-      }
-
-    });
+    final WordlePainterSimple wordlePainterSimple = new WordlePainterSimple();
+    
+    final Canvas canvas = new Canvas(wordlePainterSimple);
 
     final JPanel guiPanel = new JPanel();
     guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.Y_AXIS));
@@ -42,6 +35,8 @@ public class Main {
 
       private static final long serialVersionUID = -1332014568175053524L;
 
+      
+      
       @Override
       public void actionPerformed(final ActionEvent e) {
         final JFileChooser fc = new JFileChooser();
@@ -51,6 +46,9 @@ public class Main {
         if(returnVal == JFileChooser.APPROVE_OPTION) {
           final File file = fc.getSelectedFile();
           final List<TextItem> loadCSV = InputDataReader.loadCSV(file, ",");
+          wordlePainterSimple.setItems(loadCSV);
+          canvas.repaint();
+          
           System.out.println(loadCSV);
         } else {
           System.out.println("nothing selected");
@@ -59,6 +57,16 @@ public class Main {
       }
     }));
     guiPanel.add(new JButton("load color.."));
+    guiPanel.add(new JButton(new AbstractAction("reset view") {
+
+      private static final long serialVersionUID = 2154458079066313145L;
+
+      @Override
+      public void actionPerformed(final ActionEvent e) {
+        canvas.reset();
+      }
+
+    }));
     guiPanel.add(new JButton(new AbstractAction("Save SVG...") {
 
       private static final long serialVersionUID = -9119742082960796042L;
@@ -87,6 +95,8 @@ public class Main {
     fenster.add(guiPanel, BorderLayout.WEST);
     fenster.add(canvas, BorderLayout.CENTER);
     fenster.pack();
+
+    canvas.reset();
 
     fenster.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     fenster.setLocationRelativeTo(null);

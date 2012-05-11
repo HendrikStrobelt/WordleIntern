@@ -8,6 +8,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
@@ -164,6 +165,12 @@ public class Canvas extends JComponent {
    */
   public double getOffsetY() {
     return offY;
+  }
+
+  public void reset() {
+    zoom = 1;
+    final Rectangle2D rect = getVisibleRect();
+    setOffset(rect.getCenterX(), rect.getCenterY());
   }
 
 }
