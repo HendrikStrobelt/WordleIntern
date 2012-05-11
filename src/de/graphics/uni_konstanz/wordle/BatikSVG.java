@@ -97,4 +97,8 @@ public class BatikSVG {
     return res;
   }
 
+  public void write(final File file, final Graphics2D g) throws IOException {
+    write(new PrintWriter(file, UTF8), g);
+  }
+
 }
