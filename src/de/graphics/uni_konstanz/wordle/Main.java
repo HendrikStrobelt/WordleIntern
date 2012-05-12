@@ -36,6 +36,7 @@ public class Main {
     final Canvas canvas = new Canvas(wordlePainterSimple);
 
     final JPanel guiPanel = new JPanel();
+
     guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.Y_AXIS));
     guiPanel.add(new JButton(new AbstractAction("load csv.. ") {
 
