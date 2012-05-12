@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -58,7 +57,7 @@ public class InputDataReader {
         textItem.setSize((textItem.getSize() - min) / (max - min));
       }
 
-      Collections.sort(res);
+      // Collections.sort(res);
 
     }
 

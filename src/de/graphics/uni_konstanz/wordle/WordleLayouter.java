@@ -39,9 +39,18 @@ public class WordleLayouter {
           .getBounds2D().getHeight());
       final double spiralFactor = minSide / 17.0;
       final double spiralStep = minSide / 10.0;
+      double sx = 1;
+      double sy = 1;
+      if(Math.random() > 0.5) {
+        sx = -1;
+      }
+      if(Math.random() > 0.5) {
+        sy = -1;
+      }
+
       while(true) {
-        final double tx = Math.sin(t) * t * spiralFactor;
-        final double ty = Math.cos(t) * t * spiralFactor;
+        final double tx = sx * Math.sin(t) * t * spiralFactor;
+        final double ty = sy * Math.cos(t) * t * spiralFactor;
         final AffineTransform at = new AffineTransform();
         at.translate(tx, ty);
         // transformed object
