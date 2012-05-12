@@ -16,7 +16,7 @@ public class WordleLayouter {
 
   enum RotationMode {
     NO_ROTATION, ROT_90_DEG_LEFT, ROT_90_DEG_RIGHT, ROT_90_DEG_LEFT_AND_RIGHT,
-    ROT_90_DEG_RIGHT_AND_LEFT
+    ROT_90_DEG_RIGHT_AND_LEFT, ROT_RANDOM
   }
 
   public static List<Shape> generateLayoutLinear(final List<Shape> input,
@@ -37,8 +37,8 @@ public class WordleLayouter {
       // spiral depending on the size of the object
       final double minSide = Math.min(cur.getBounds2D().getWidth(), cur
           .getBounds2D().getHeight());
-      final double spiralFactor = minSide / 17.0;
-      final double spiralStep = minSide / 10.0;
+      final double spiralFactor = minSide * 3;// / 7.0;
+      final double spiralStep = minSide * 2;// / 5.0;
       double sx = 1;
       double sy = 1;
       if(Math.random() > 0.5) {
@@ -129,6 +129,28 @@ public class WordleLayouter {
               foundSolution = true;
             }
             break;
+
+          case ROT_RANDOM:
+            // right
+            rot = new AffineTransform();
+            final double rFactor = Math.random() > 0.5 ? 1 : -1;
+            // System.out.println(rFactor);
+            rot.rotate(Math.PI * rFactor / 2.0, centerX, centerY);
+            final Area rotR1 = getTransformedArea(transformedArea, rot);
+            if(!hasOverlap(layouted, rotR1)) {
+              layouted.add(rotR1);
+              foundSolution = true;
+            }
+            // left
+            rot = new AffineTransform();
+            rot.rotate(-Math.PI * rFactor / 2.0, centerX, centerY);
+            final Area rotR2 = getTransformedArea(transformedArea, rot);
+            if(!hasOverlap(layouted, rotR2)) {
+              layouted.add(rotR2);
+              foundSolution = true;
+            }
+            break;
+
           case NO_ROTATION:
             break;
         }
@@ -179,11 +201,19 @@ public class WordleLayouter {
       // spiral depending on the size of the object
       final double minSide = Math.min(cur.getBounds2D().getWidth(), cur
           .getBounds2D().getHeight());
+      double sx = 1;
+      double sy = 1;
+      if(Math.random() > 0.5) {
+        sx = -1;
+      }
+      if(Math.random() > 0.5) {
+        sy = -1;
+      }
       final double spiralFactor = minSide / 17.0;
-      final double spiralStep = minSide / 10.0;
+      final double spiralStep = minSide / 5.0;
       while(true) {
-        final double tx = Math.sin(t) * t * spiralFactor;
-        final double ty = Math.cos(t) * t * spiralFactor;
+        final double tx = sx * Math.sin(t) * t * spiralFactor;
+        final double ty = sy * Math.cos(t) * t * spiralFactor;
         final AffineTransform at = new AffineTransform();
         at.translate(tx, ty);
         // transformed object
@@ -263,6 +293,28 @@ public class WordleLayouter {
               foundSolution = true;
             }
             break;
+
+          case ROT_RANDOM:
+            // right
+            rot = new AffineTransform();
+            final double rFactor = Math.random() > 0.5 ? 1 : -1;
+            // System.out.println(rFactor);
+            rot.rotate(Math.PI * rFactor / 2.0, centerX, centerY);
+            final Area rotR1 = getTransformedArea(transformedArea, rot);
+            if(!hasOverlap(layouted, rotR1)) {
+              layouted.add(rotR1);
+              foundSolution = true;
+            }
+            // left
+            rot = new AffineTransform();
+            rot.rotate(-Math.PI * rFactor / 2.0, centerX, centerY);
+            final Area rotR2 = getTransformedArea(transformedArea, rot);
+            if(!hasOverlap(layouted, rotR2)) {
+              layouted.add(rotR2);
+              foundSolution = true;
+            }
+            break;
+
           case NO_ROTATION:
             break;
         }

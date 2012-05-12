@@ -294,7 +294,7 @@ public class Main {
           wordlePainterSimple.setRotationMode(WordleLayouter.RotationMode.ROT_90_DEG_RIGHT);
         }
         if(selectedIndex == 1) {
-          wordlePainterSimple.setRotationMode(WordleLayouter.RotationMode.ROT_90_DEG_RIGHT_AND_LEFT);
+          wordlePainterSimple.setRotationMode(WordleLayouter.RotationMode.ROT_RANDOM);
         }
         if(selectedIndex == 2) {
           wordlePainterSimple.setRotationMode(WordleLayouter.RotationMode.NO_ROTATION);
