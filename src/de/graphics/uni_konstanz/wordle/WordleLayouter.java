@@ -209,8 +209,8 @@ public class WordleLayouter {
       if(Math.random() > 0.5) {
         sy = -1;
       }
-      final double spiralFactor = minSide / 17.0;
-      final double spiralStep = minSide / 5.0;
+      final double spiralFactor = minSide / 7;// / 17.0;
+      final double spiralStep = minSide / 3;// / 7.0;
       while(true) {
         final double tx = sx * Math.sin(t) * t * spiralFactor;
         final double ty = sy * Math.cos(t) * t * spiralFactor;
